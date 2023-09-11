@@ -19,6 +19,8 @@ class Engine:
         self.writers = writers
 
     def run(self):
+        logger.info("=" * 80)
+        logger.info("Starting probes. Press CTRL-C to terminate")
         while True:
             for probe in self.probes:
                 try:

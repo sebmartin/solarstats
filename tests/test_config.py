@@ -88,7 +88,7 @@ writers:
     assert config.writers == [Writer1(arg1=1, arg2="two")]
 
 
-def test_load_config_no_probes_no_writers(config_yaml, tmpdir, caplog):
+def test_load_config_no_probes_no_writers(tmpdir, caplog):
     config_yaml = """
 frequency: 1.0
 probes:

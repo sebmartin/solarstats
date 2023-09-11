@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 import logging
+import os
 
 import yaml
 from probes import Probe
@@ -21,9 +22,17 @@ class EngineConfig:
     writers: list[MetricsWriter] = field(default_factory=list)
 
 
+class ConfigNotFoundError(Exception):
+    pass
+
+
 def load_config(
     filepath: str, probes: list[type[Probe]], writers: list[type[MetricsWriter]]
 ) -> EngineConfig:
+    if not os.path.exists(filepath):
+        raise ConfigNotFoundError(filepath)
+
+    logger.info(f"Loading config file: {filepath}")
     with open(filepath, "r") as fd:
         config = yaml.load(fd, Loader)
 
