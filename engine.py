@@ -6,11 +6,6 @@ from writers import MetricsWriter
 
 logger = logging.getLogger(__name__)
 
-try:
-    from yaml import CLoader as Loader  # noqa
-except ImportError:
-    from yaml import Loader  # noqa
-
 
 class Engine:
     def __init__(

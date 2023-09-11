@@ -2,7 +2,7 @@ import logging
 import time
 from prometheus_client import start_http_server, Gauge
 
-from probes.renogy_rover import RenogyRover
+from probes.renogy.renogy_rover import RenogyRover
 
 logger = logging.getLogger(__name__)
 
