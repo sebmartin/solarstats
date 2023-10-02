@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from sqlalchemy import (
     URL,
@@ -10,6 +11,8 @@ from sqlalchemy.types import JSON
 from traitlets import Any
 
 from writers import MetricsWriter
+
+logger = logging.getLogger(__name__)
 
 
 class Base(DeclarativeBase):
@@ -34,6 +37,7 @@ class SqlMetricsWriter(MetricsWriter):
         Base.metadata.create_all(self._engine)
 
     def output_metrics(self, provider: str, version: str, data: dict[str, Any]):
+        logger.info(f"Writing metrics for provider {provider}@{version}")
         with Session(self._engine) as session:
             session.add(
                 Metric(

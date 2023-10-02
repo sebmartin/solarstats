@@ -1,3 +1,4 @@
+import logging
 from probes import Probe
 from probes.renogy.renogy_rover import (
     RenogyRoverController,
@@ -5,6 +6,8 @@ from probes.renogy.renogy_rover import (
 from probes.renogy.renogy_rover_sim import RenogyRoverControllerSimulator
 
 VERSION = "0.1"
+
+logger = logging.getLogger(__name__)
 
 
 class _RenogyRoverBase(Probe):
@@ -15,6 +18,7 @@ class _RenogyRoverBase(Probe):
         return VERSION
 
     def poll(self) -> dict:
+        logger.info(f"Polling contoller {self._controller.__class__.__name__}")
         return {
             "model": self._controller.model(),
             "system_voltage_current": self._controller.system_voltage_current(),

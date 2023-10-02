@@ -44,6 +44,11 @@ def load_config(
     if not config:
         return EngineConfig()
 
+    # set logging level
+    if logging_level := config.get("logging_level"):
+        # TODO: support setting a specific logger's level
+        logging.basicConfig(level=logging_level)
+
     # configure probes
     config_probes = set(config.get("probes", {}).keys())
     available_probes = {p.__name__ for p in probes}

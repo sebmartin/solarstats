@@ -13,7 +13,7 @@ for the Engine class.
 
 The `probes` and `writers` keys in the root of the config are dictionaries where:
 - each key is the name of a probe or writer
-- the value is a nested dict wher the key/value pairs match each probe/writer's constructer arguments
+- the value is a nested dict where the key/value pairs match each probe/writer's constructer arguments
 
 ## Example config
 
@@ -21,6 +21,7 @@ Example `config/config.yaml`:
 
 ```yaml
 frequency: 1.0
+logging_level: INFO
 probes:
   probe1:
     arg1: 1
