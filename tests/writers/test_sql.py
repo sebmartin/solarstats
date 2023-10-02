@@ -7,19 +7,18 @@ from writers.sql import Metric, SqlMetricsWriter
 
 
 @pytest.fixture
-def engine():
-    return create_engine("sqlite+pysqlite:///:memory:", echo=True)
+def connection():
+    return "sqlite+pysqlite:///:memory:"
 
 
 @pytest.fixture
-def conn(engine):
-    with engine.connect() as c:
-        yield c
+def engine(writer):
+    return writer._engine
 
 
 @pytest.fixture
-def writer(engine: Engine):
-    return SqlMetricsWriter(engine)
+def writer(connection):
+    return SqlMetricsWriter(connection)
 
 
 def test_output_metrics(writer: SqlMetricsWriter, engine):

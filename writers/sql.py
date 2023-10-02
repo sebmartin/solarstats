@@ -1,7 +1,8 @@
 import datetime
 
 from sqlalchemy import (
-    Engine,
+    URL,
+    create_engine,
     func,
 )
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
@@ -26,14 +27,14 @@ class Metric(Base):
 
 
 class SqlMetricsWriter(MetricsWriter):
-    def __init__(self, engine: Engine) -> None:
+    def __init__(self, connection: str | URL) -> None:
         super().__init__()
 
-        self.__engine = engine
-        Base.metadata.create_all(engine)
+        self._engine = create_engine(connection)
+        Base.metadata.create_all(self._engine)
 
     def output_metrics(self, provider: str, version: str, data: dict[str, Any]):
-        with Session(self.__engine) as session:
+        with Session(self._engine) as session:
             session.add(
                 Metric(
                     provider=provider,
