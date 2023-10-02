@@ -14,12 +14,18 @@ def write_config(tmpdir, config: str):
 
 @pytest.fixture
 def probes():
-    return []
+    class SomeProbe(Probe):
+        pass
+
+    return [SomeProbe]
 
 
 @pytest.fixture
 def writers():
-    return []
+    class SomeWriter(MetricsWriter):
+        pass
+
+    return [SomeWriter]
 
 
 class ReprHelper:
@@ -39,6 +45,9 @@ class Probe1(Probe, ReprHelper):
     def poll(self) -> dict:
         return {}
 
+    def version(self) -> str:
+        return "1.1"
+
     def __eq__(self, other: "Probe1") -> bool:
         return self.arg1 == other.arg1
 
@@ -49,6 +58,9 @@ class Probe2(Probe, ReprHelper):
 
     def poll(self) -> dict:
         return {}
+
+    def version(self) -> str:
+        return "1.2"
 
     def __eq__(self, other: "Probe2") -> bool:
         return self.arg2 == other.arg2
@@ -122,5 +134,17 @@ writers:
 
 def test_load_config_defaults(tmpdir, probes, writers):
     filepath = write_config(tmpdir, "")
+    config = load_config(filepath, probes, writers)
+    assert config == EngineConfig()
+
+
+def test_load_config_invalid_yaml(tmpdir, probes, writers):
+    filepath = write_config(tmpdir, "*not valid*")
+    config = load_config(filepath, probes, writers)
+    assert config == EngineConfig()
+
+
+def test_load_config_extra_value_yaml(tmpdir, probes, writers):
+    filepath = write_config(tmpdir, "something: not relevant")
     config = load_config(filepath, probes, writers)
     assert config == EngineConfig()

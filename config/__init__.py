@@ -34,7 +34,12 @@ def load_config(
 
     logger.info(f"Loading config file: {filepath}")
     with open(filepath, "r") as fd:
-        config = yaml.load(fd, Loader)
+        try:
+            config = yaml.load(fd, Loader)
+            if not isinstance(config, dict):
+                config = {}
+        except Exception:
+            config = {}
 
     if not config:
         return EngineConfig()
@@ -50,7 +55,7 @@ def load_config(
     probes_map = {p.__name__.lower(): p for p in probes}
     config["probes"] = [
         probes_map[name.lower()](**probe)
-        for name, probe in config["probes"].items()
+        for name, probe in config.get("probes", {}).items()
         if name.lower() in probes_map
     ]
     configured_probes = sorted(p.__class__.__name__ for p in config["probes"])
@@ -69,10 +74,14 @@ def load_config(
     writers_map = {w.__name__.lower(): w for w in writers}
     config["writers"] = [
         writers_map[name.lower()](**writer)
-        for name, writer in config["writers"].items()
+        for name, writer in config.get("writers", {}).items()
         if name.lower() in writers_map
     ]
     configured_writers = sorted(w.__class__.__name__ for w in config["writers"])
     logger.info(f"Configured writers: {configured_writers}")
 
-    return EngineConfig(**(config or {}))
+    config = {
+        k: v for k, v in config.items() if k in ["frequency", "probes", "writers"]
+    }
+
+    return EngineConfig(**config)

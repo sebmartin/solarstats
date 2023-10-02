@@ -17,13 +17,13 @@ CHARGING_STATE = {
 }
 
 
-class RenogyRover(minimalmodbus.Instrument):
+class RenogyRoverController(minimalmodbus.Instrument):
     """
     Communicates using the Modbus RTU protocol (via provided USB<->RS232 cable)
     """
 
-    def __init__(self, portname, slaveaddress, baudrate=9600, timeout=0.5):
-        minimalmodbus.Instrument.__init__(self, portname, slaveaddress)
+    def __init__(self, device, address, baudrate=9600, timeout=0.5):
+        minimalmodbus.Instrument.__init__(self, port=device, slaveaddress=address)
 
         assert self.serial is not None, "modbus failed to initialize"
         self.serial.baudrate = baudrate
@@ -175,24 +175,24 @@ class RenogyRover(minimalmodbus.Instrument):
     # TODO: resume at 3.10 of spec
 
 
-if __name__ == "__main__":
-    rover = RenogyRover("/dev/ttyUSB0", 1)
-    print("Model: ", rover.model())
-    print("Battery %: ", rover.battery_percentage())
-    print("Battery Type: ", rover.battery_type())
-    print("Battery Capacity: ", rover.battery_capacity())
-    print("Battery Voltage: ", rover.battery_voltage())
-    battery_temp = rover.battery_temperature()
-    print("Battery Temperature: ", battery_temp, battery_temp * 1.8 + 32)
-    controller_temp = rover.controller_temperature()
-    print("Controller Temperature: ", controller_temp, controller_temp * 1.8 + 32)
-    print("Load Voltage: ", rover.load_voltage())
-    print("Load Current: ", rover.load_current())
-    print("Load Power: ", rover.load_power())
-    print("Charging Status: ", rover.charging_status_label())
-    print("Solar Voltage: ", rover.solar_voltage())
-    print("Solar Current: ", rover.solar_current())
-    print("Solar Power: ", rover.solar_power())
-    print("Power Generated Today (kilowatt hours): ", rover.power_generation_today())
-    print("Charging Amp/Hours Today: ", rover.charging_amp_hours_today())
-    print("Discharging Amp/Hours Today: ", rover.discharging_amp_hours_today())
+# if __name__ == "__main__":
+#     rover = RenogyRover("/dev/ttyUSB0", 1)
+#     print("Model: ", rover.model())
+#     print("Battery %: ", rover.battery_percentage())
+#     print("Battery Type: ", rover.battery_type())
+#     print("Battery Capacity: ", rover.battery_capacity())
+#     print("Battery Voltage: ", rover.battery_voltage())
+#     battery_temp = rover.battery_temperature()
+#     print("Battery Temperature: ", battery_temp, battery_temp * 1.8 + 32)
+#     controller_temp = rover.controller_temperature()
+#     print("Controller Temperature: ", controller_temp, controller_temp * 1.8 + 32)
+#     print("Load Voltage: ", rover.load_voltage())
+#     print("Load Current: ", rover.load_current())
+#     print("Load Power: ", rover.load_power())
+#     print("Charging Status: ", rover.charging_status_label())
+#     print("Solar Voltage: ", rover.solar_voltage())
+#     print("Solar Current: ", rover.solar_current())
+#     print("Solar Power: ", rover.solar_power())
+#     print("Power Generated Today (kilowatt hours): ", rover.power_generation_today())
+#     print("Charging Amp/Hours Today: ", rover.charging_amp_hours_today())
+#     print("Discharging Amp/Hours Today: ", rover.discharging_amp_hours_today())

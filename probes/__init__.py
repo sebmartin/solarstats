@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from enum import Enum
 
 
 class Probe(ABC):
@@ -9,4 +8,8 @@ class Probe(ABC):
 
     @abstractmethod
     def poll(self) -> dict:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def version(self) -> str:
         raise NotImplementedError()

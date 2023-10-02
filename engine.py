@@ -31,7 +31,9 @@ class Engine:
                     for writer in self.writers:
                         try:
                             logger.info(f"Writing to {writer}")
-                            writer.output_metrics(probe.__class__.__name__, data)
+                            writer.output_metrics(
+                                probe.__class__.__name__, probe.version(), data
+                            )
                         except Exception as exc:
                             logger.exception(exc)
                 except Exception as exc:

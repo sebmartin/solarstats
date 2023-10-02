@@ -20,6 +20,7 @@ class Metric(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     provider: Mapped[str]
+    version: Mapped[str]
     data: Mapped[dict] = mapped_column(type_=JSON)
     created_at: Mapped[datetime.datetime] = mapped_column(default=func.now())
 
@@ -31,11 +32,12 @@ class SqlMetricsWriter(MetricsWriter):
         self.__engine = engine
         Base.metadata.create_all(engine)
 
-    def output_metrics(self, provider: str, data: dict[str, Any]):
+    def output_metrics(self, provider: str, version: str, data: dict[str, Any]):
         with Session(self.__engine) as session:
             session.add(
                 Metric(
                     provider=provider,
+                    version=version,
                     data=data,
                 )
             )

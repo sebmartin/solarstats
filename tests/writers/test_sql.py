@@ -27,7 +27,7 @@ def test_output_metrics(writer: SqlMetricsWriter, engine):
     data = {"metric1": 1.0, "metric2": "pass", "metric3": False}
 
     created_threshold = datetime.utcnow()
-    writer.output_metrics(provider, data)
+    writer.output_metrics(provider, "1.0", data)
 
     with Session(engine) as session:
         metric = session.scalar(select(Metric).limit(1))
