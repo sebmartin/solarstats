@@ -37,6 +37,7 @@ if __name__ == "__main__":
     try:
         config = load_config(config_file, probes=ALL_PROBES, writers=ALL_WRITERS)
         set_logging(logging.DEBUG if args.verbose else config.logging_level)
+        logger.info(f"Loaded configuration from: {config_file}")
         logger.debug(f"Loaded configuration values:\n  {config}")
 
         engine = Engine(
