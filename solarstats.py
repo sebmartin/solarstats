@@ -4,20 +4,17 @@ from os.path import abspath, dirname
 
 from config import ConfigNotFoundError, load_config
 from engine import Engine
-from probes import Probe
 from probes.registry import ALL_PROBES, ALL_WRITERS
-from writers import MetricsWriter
-from writers.http import HttpMetricsWriter
-from writers.sql import SqlMetricsWriter
-
-logging.basicConfig()
-logging.getLogger().setLevel("INFO")
 
 logger = logging.getLogger(__name__)
 
 
-def set_logging(level: str):
-    logging.getLogger().setLevel(level)
+def set_logging(level: int | str):
+    logging.basicConfig(
+        level=level,
+        format="%(asctime)s - %(name)s - %(levelname)s | %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",  # Define the date and time format
+    )
 
 
 DEFAULT_CONFIG_PATH = f"{dirname(abspath(__file__))}/config/config.yaml"
@@ -35,13 +32,11 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    if args.verbose:
-        set_logging("DEBUG")
-
     config_file = abspath(args.config) if args.config else DEFAULT_CONFIG_PATH
 
     try:
         config = load_config(config_file, probes=ALL_PROBES, writers=ALL_WRITERS)
+        set_logging(logging.DEBUG if args.verbose else config.logging_level)
         logger.debug(f"Loaded configuration values:\n  {config}")
 
         engine = Engine(

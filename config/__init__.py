@@ -1,10 +1,10 @@
-from dataclasses import dataclass, field
 import logging
 import os
+from dataclasses import dataclass, field
 
 import yaml
-from probes import Probe
 
+from probes import Probe
 from writers import MetricsWriter
 
 try:
@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class EngineConfig:
     frequency: float = 30.0
+    logging_level: int | str = logging.WARNING
     probes: list[Probe] = field(default_factory=list)
     writers: list[MetricsWriter] = field(default_factory=list)
 
@@ -43,11 +44,6 @@ def load_config(
 
     if not config:
         return EngineConfig()
-
-    # set logging level
-    if logging_level := config.get("logging_level"):
-        # TODO: support setting a specific logger's level
-        logging.basicConfig(level=logging_level)
 
     # configure probes
     config_probes = set(config.get("probes", {}).keys())
@@ -86,7 +82,9 @@ def load_config(
     logger.info(f"Configured writers: {configured_writers}")
 
     config = {
-        k: v for k, v in config.items() if k in ["frequency", "probes", "writers"]
+        k: v
+        for k, v in config.items()
+        if k in ["frequency", "probes", "writers", "logging_level"]
     }
 
     return EngineConfig(**config)
