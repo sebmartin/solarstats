@@ -23,24 +23,24 @@ class RenogyRoverController(minimalmodbus.Instrument):
     """
 
     def __init__(self, device, address, baudrate=9600, timeout=0.5):
-        minimalmodbus.Instrument.__init__(self, port=device, slaveaddress=address)
+        self.device = minimalmodbus.Instrument(port=device, slaveaddress=address)
+        assert self.device.serial is not None, "modbus failed to initialize"
 
-        assert self.serial is not None, "modbus failed to initialize"
-        self.serial.baudrate = baudrate
-        self.serial.timeout = timeout
+        self.device.serial.baudrate = baudrate
+        self.device.serial.timeout = timeout
 
     def model(self):
         """
         Read the controller's model information
         """
-        return self.read_string(12, number_of_registers=8)
+        return self.device.read_string(12, number_of_registers=8)
 
     def system_voltage_current(self):
         """
         Read the controler's system voltage and current
         Returns a tuple of (voltage, current)
         """
-        register = self.read_register(10)
+        register = self.device.read_register(10)
         amps = register & 0x00FF
         voltage = register >> 8
         return (voltage, amps)
@@ -50,7 +50,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
         Read the controler's software and hardware version information
         Returns a tuple of (software version, hardware version)
         """
-        registers = self.read_registers(20, 4)
+        registers = self.device.read_registers(20, 4)
         soft_major = registers[0] & 0x00FF
         soft_minor = registers[1] >> 8
         soft_patch = registers[1] & 0x00FF
@@ -65,26 +65,26 @@ class RenogyRoverController(minimalmodbus.Instrument):
         """
         Read the controller's serial number
         """
-        registers = self.read_registers(24, 2)
+        registers = self.device.read_registers(24, 2)
         return "{}{}".format(registers[0], registers[1])
 
     def battery_percentage(self):
         """
         Read the battery percentage
         """
-        return self.read_register(256) & 0x00FF
+        return self.device.read_register(256) & 0x00FF
 
     def battery_voltage(self):
         """
         Read the battery voltage
         """
-        return self.read_register(257, number_of_decimals=1)
+        return self.device.read_register(257, number_of_decimals=1)
 
     def battery_temperature(self):
         """
         Read the battery surface temperature
         """
-        register = self.read_register(259)
+        register = self.device.read_register(259)
         battery_temp_bits = register & 0x00FF
         temp_value = battery_temp_bits & 0x0FF
         sign = battery_temp_bits >> 7
@@ -95,7 +95,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
         """
         Read the controller temperature
         """
-        register = self.read_register(259)
+        register = self.device.read_register(259)
         controller_temp_bits = register >> 8
         temp_value = controller_temp_bits & 0x0FF
         sign = controller_temp_bits >> 7
@@ -104,72 +104,72 @@ class RenogyRoverController(minimalmodbus.Instrument):
 
     def load_voltage(self):
         """
-        Read load (raspberrypi) voltage
+        Read load voltage
         """
-        return self.read_register(260, number_of_decimals=1)
+        return self.device.read_register(0x104, number_of_decimals=1)
 
     def load_current(self):
         """
-        Read load (raspberrypi) current
+        Read load current
         """
-        return self.read_register(261, number_of_decimals=2)
+        return self.device.read_register(0x105, number_of_decimals=2)
 
     def load_power(self):
         """
-        Read load (raspberrypi) power
+        Read load power
         """
-        return self.read_register(262)
+        return self.device.read_register(0x106)
 
     def solar_voltage(self):
         """
         Read solar voltage
         """
-        return self.read_register(263, number_of_decimals=1)
+        return self.device.read_register(263, number_of_decimals=1)
 
     def solar_current(self):
         """
         Read solar current
         """
-        return self.read_register(264, number_of_decimals=2)
+        return self.device.read_register(264, number_of_decimals=2)
 
     def solar_power(self):
         """
         Read solar power
         """
-        return self.read_register(265)
+        return self.device.read_register(265)
 
     def charging_amp_hours_today(self):
         """
         Read charging amp hours for the current day
         """
-        return self.read_register(273)
+        return self.device.read_register(273)
 
     def discharging_amp_hours_today(self):
         """
         Read discharging amp hours for the current day
         """
-        return self.read_register(274)
+        return self.device.read_register(274)
 
     def power_generation_today(self):
-        return self.read_register(275)
+        return self.device.read_register(275)
 
     def charging_status(self):
-        return self.read_register(288) & 0x00FF
+        return self.device.read_register(288) & 0x00FF
 
     def charging_status_label(self):
         return CHARGING_STATE.get(self.charging_status())
 
     def battery_capacity(self):
-        return self.read_register(57346)
+        return self.device.read_register(57346)
 
     def voltage_setting(self):
-        register = self.read_register(57347)
+        register = self.device.read_register(57347)
         setting = register >> 8
         recognized_voltage = register & 0x00FF
         return (setting, recognized_voltage)
 
     def battery_type(self):
-        register = self.read_register(57348)
+        register = self.device.read_register(57348)
         return BATTERY_TYPE.get(register)
 
     # TODO: resume at 3.10 of spec

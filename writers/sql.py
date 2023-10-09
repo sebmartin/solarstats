@@ -29,7 +29,7 @@ class Metric(Base):
     created_at: Mapped[datetime.datetime] = mapped_column(default=func.now())
 
 
-class SqlMetricsWriter(MetricsWriter):
+class Sql(MetricsWriter):
     def __init__(self, connection: str | URL) -> None:
         super().__init__()
 

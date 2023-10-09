@@ -3,7 +3,7 @@ import pytest
 from sqlalchemy import Engine, create_engine, select
 from sqlalchemy.orm import Session
 
-from writers.sql import Metric, SqlMetricsWriter
+from writers.sql import Metric, Sql
 
 
 @pytest.fixture
@@ -18,10 +18,10 @@ def engine(writer):
 
 @pytest.fixture
 def writer(connection):
-    return SqlMetricsWriter(connection)
+    return Sql(connection)
 
 
-def test_output_metrics(writer: SqlMetricsWriter, engine):
+def test_output_metrics(writer: Sql, engine):
     provider = "test_provider"
     data = {"metric1": 1.0, "metric2": "pass", "metric3": False}
 

@@ -16,9 +16,9 @@ probes:
     device: /dev/ttyUSB0
     address: 1
 writers:
-  HttpMetricsWriter:
+  Http:
     port: 5555
-  SqlMetricsWriter:
+  Sql:
     connection: sqlite:///solarstats.sqlite
 ```
 
@@ -42,14 +42,14 @@ The output will look something like this:
 2023-10-04 22:21:44 - engine - INFO | Starting probes. Press CTRL-C to terminate
 2023-10-04 22:21:44 - engine - INFO | Polling with probe RenogyRoverSimulator
 2023-10-04 22:21:44 - probes.renogy - INFO | Polling contoller RenogyRoverControllerSimulator
-2023-10-04 22:21:44 - engine - INFO | Writing to HttpMetricsWriter
+2023-10-04 22:21:44 - engine - INFO | Writing to Http
 2023-10-04 22:21:44 - writers.http - INFO | Starting http server at: http://localhost:5555
-2023-10-04 22:21:44 - engine - INFO | Writing to SqlMetricsWriter
+2023-10-04 22:21:44 - engine - INFO | Writing to Sql
 2023-10-04 22:21:44 - writers.sql - INFO | Writing metrics for provider RenogyRoverSimulator@0.1
 2023-10-04 22:21:49 - engine - INFO | Polling with probe RenogyRoverSimulator
 2023-10-04 22:21:49 - probes.renogy - INFO | Polling contoller RenogyRoverControllerSimulator
-2023-10-04 22:21:49 - engine - INFO | Writing to HttpMetricsWriter
-2023-10-04 22:21:49 - engine - INFO | Writing to SqlMetricsWriter
+2023-10-04 22:21:49 - engine - INFO | Writing to Http
+2023-10-04 22:21:49 - engine - INFO | Writing to Sql
 2023-10-04 22:21:49 - writers.sql - INFO | Writing metrics for provider RenogyRoverSimulator@0.1
 ^C2023-10-04 22:21:50 - __main__ - INFO | Done
 ```
@@ -72,10 +72,10 @@ probes:
   RenogyRoverSimulator:
     connection: sqlite:///solarstats.simulated.sqlite  # source of fake metrics
 writers:
-  HttpMetricsWriter:
+  Http:
     port: 5555
-  SqlMetricsWriter:
+  Sql:
     connection: sqlite:///solarstats.sqlite
 ```
 
-You can use the `SqlMetricsWriter` writer when connected with the real `RenogyRover` probe to generate your own database of metrics that can be used directly with the simulator.
+You can use the `Sql` writer when connected with the real `RenogyRover` probe to generate your own database of metrics that can be used directly with the simulator.

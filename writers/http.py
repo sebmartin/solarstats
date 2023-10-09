@@ -6,7 +6,7 @@ from prometheus_client import start_http_server, Gauge
 logger = logging.getLogger(__name__)
 
 
-class HttpMetricsWriter(MetricsWriter):
+class Http(MetricsWriter):
     def __init__(self, port: int = 5000, keys: Optional[list[str]] = None) -> None:
         super().__init__()
 
