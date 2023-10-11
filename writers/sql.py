@@ -8,7 +8,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 from sqlalchemy.types import JSON
-from traitlets import Any
+from typing import Any
 
 from writers import MetricsWriter
 
