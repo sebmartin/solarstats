@@ -23,7 +23,7 @@ You'll need to associate each color to the pins shown in the diagram below. Some
 
 ![RS232 Pin-out](images/rj12_pinout.png)
 
-In the example above, the color to pin mapping looks like this:
+With the wire pictured above, the color to pin mapping looks like this:
 
 | Pin # | Pin Description | Wire Color |
 |--|--|--|
@@ -34,13 +34,17 @@ In the example above, the color to pin mapping looks like this:
 | 5 | Power supply +12V | Black |
 | 6 | Power supply -12V | White |
 
-Make sure you get this mapping correct since connecting the 12V supply to the USB cable can damage your equipment.
+The colors for your cable migth be different.
 
-If you have a multimeter, you can check the voltage of each wire to make sure you identified them correctly. Plug the cable into your charge controller and with your multimeter set to measure DC voltage:
+⚠️ Make sure you get this mapping correct since connecting the 12V supply to the USB cable can damage your equipment.
 
-- TX to ground: 5-6 volts
-- TX to RX: 5-6 volts
-- RX to ground: around ~0.1V
+If you have a multimeter, you can check the voltage of each wire to make sure you identified them correctly. Plug the cable into your charge controller and with your multimeter set to measure DC voltage, check to make sure that:
+
+| Connection | Measurement |
+|--|--|
+| TX to ground | 5-6 volts |
+| TX to RX | 5-6 volts |
+| RX to ground | very low, ~0.1V |
 
 ![](images/tx_to_gnd.jpeg)
 ![](images/rx_to_gnd.jpeg)
@@ -62,7 +66,7 @@ The DB9 connector should have each pin well identified with numbers. You want to
 
 ![](images/DB9_pinout.jpeg)
 
-Close up the DB9 connector and that's basically it. You can now connect the DB9 connector to the USB/Serial cable which together gives you an RS-232 to USB cable!
+Close up the DB9 connector and that's basically it. You can now connect the DB9 connector to the USB/Serial cable which together gives you an RS-232 to USB cable! It's not pretty, but it works!
 
 ![](images/complete_cable.jpeg)
 
