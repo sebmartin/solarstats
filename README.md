@@ -41,13 +41,13 @@ The output will look something like this:
 2023-10-04 22:21:44 - engine - INFO | ================================================================================
 2023-10-04 22:21:44 - engine - INFO | Starting probes. Press CTRL-C to terminate
 2023-10-04 22:21:44 - engine - INFO | Polling with probe RenogyRoverSimulator
-2023-10-04 22:21:44 - probes.renogy - INFO | Polling contoller RenogyRoverControllerSimulator
+2023-10-04 22:21:44 - probes.renogy - INFO | Polling controller RenogyRoverControllerSimulator
 2023-10-04 22:21:44 - engine - INFO | Writing to Http
 2023-10-04 22:21:44 - writers.http - INFO | Starting http server at: http://localhost:5555
 2023-10-04 22:21:44 - engine - INFO | Writing to Sql
 2023-10-04 22:21:44 - writers.sql - INFO | Writing metrics for provider RenogyRoverSimulator@0.1
 2023-10-04 22:21:49 - engine - INFO | Polling with probe RenogyRoverSimulator
-2023-10-04 22:21:49 - probes.renogy - INFO | Polling contoller RenogyRoverControllerSimulator
+2023-10-04 22:21:49 - probes.renogy - INFO | Polling controller RenogyRoverControllerSimulator
 2023-10-04 22:21:49 - engine - INFO | Writing to Http
 2023-10-04 22:21:49 - engine - INFO | Writing to Sql
 2023-10-04 22:21:49 - writers.sql - INFO | Writing metrics for provider RenogyRoverSimulator@0.1

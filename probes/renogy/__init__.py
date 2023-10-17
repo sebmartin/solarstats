@@ -18,7 +18,7 @@ class _RenogyRoverBase(Probe):
         return VERSION
 
     def poll(self) -> dict:
-        logger.info(f"Polling contoller {self._controller.__class__.__name__}")
+        logger.info(f"Polling controller {self._controller.__class__.__name__}")
         return {
             "model": self._controller.model(),
             "system_voltage_current": self._controller.system_voltage_current(),
