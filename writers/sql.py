@@ -8,7 +8,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 from sqlalchemy.types import JSON
-from typing import Any
+from typing import Any, Union
 
 from writers import MetricsWriter
 
@@ -30,7 +30,7 @@ class Metric(Base):
 
 
 class Sql(MetricsWriter):
-    def __init__(self, connection: str | URL) -> None:
+    def __init__(self, connection: Union[str, URL]) -> None:
         super().__init__()
 
         self._engine = create_engine(connection)

@@ -15,9 +15,14 @@ root_dir=$(dirname $script_dir)
 create_venv() {
     pushd $root_dir
     if [ ! -e "$file_path" ]; then
+        echo "Creating venv in $root_dir/.venv"
         python3 -m venv .venv
     fi
+
+    echo "Activating venv"
     source .venv/bin/activate
+
+    echo "Installing production requirements"
     pip install -r $root_dir/requirements.txt
     popd
 }

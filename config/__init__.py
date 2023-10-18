@@ -1,6 +1,7 @@
 import logging
 import os
 from dataclasses import dataclass, field
+from typing import Union
 
 import yaml
 
@@ -18,7 +19,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class EngineConfig:
     frequency: float = 30.0
-    logging_level: int | str = logging.WARNING
+    logging_level: Union[int, str] = logging.WARNING
     probes: list[Probe] = field(default_factory=list)
     writers: list[MetricsWriter] = field(default_factory=list)
 

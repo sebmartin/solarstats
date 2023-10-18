@@ -1,6 +1,7 @@
 import argparse
 import logging
 from os.path import abspath, dirname
+from typing import Union
 
 from config import ConfigNotFoundError, load_config
 from engine import Engine
@@ -9,7 +10,7 @@ from probes.registry import ALL_PROBES, ALL_WRITERS
 logger = logging.getLogger(__name__)
 
 
-def set_logging(level: int | str):
+def set_logging(level: Union[int, str]):
     logging.basicConfig(
         level=level,
         format="%(asctime)s - %(name)s - %(levelname)s | %(message)s",

@@ -9,6 +9,7 @@ based on:
     https://github.com/corbinbs/solarshed/blob/master/solarshed/controllers/renogy_rover.py
 """
 
+from typing import Union
 import minimalmodbus
 import logging
 
@@ -60,7 +61,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
         register = self.device.read_register(0x000B)
         return register >> 8
 
-    def product_type(self) -> ProductType | int:
+    def product_type(self) -> Union[ProductType, int]:
         """
         Product type
         """
@@ -299,7 +300,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
         """
         self.device.write_register(0x010A, state.value)
 
-    def street_light_status(self) -> OnOff | None:
+    def street_light_status(self) -> Union[OnOff, None]:
         """
         Street light (load) status on/off
         """
@@ -330,7 +331,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
         high_byte = register >> 8
         return high_byte & 0x7F
 
-    def charging_state(self) -> ChargingState | None:
+    def charging_state(self) -> Union[ChargingState, None]:
         """
         Charging state
         """
@@ -369,7 +370,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
         register = self.device.read_register(0xE003)
         return register & 0x00FF
 
-    def battery_type(self) -> BatteryType | None:
+    def battery_type(self) -> Union[BatteryType, None]:
         """
         Battery type
         """
@@ -534,7 +535,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
         return self.device.read_register(0xE01C)
 
     # Mode setting
-    def load_working_mode(self) -> LoadWorkingModes | None:
+    def load_working_mode(self) -> Union[LoadWorkingModes, None]:
         """
         Load working mode
         """
@@ -564,7 +565,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
         return self.device.read_register(0xE020) * 10
 
     # Special power control
-    def charging_mode_controlled_by(self) -> ChargingModeController | None:
+    def charging_mode_controlled_by(self) -> Union[ChargingModeController, None]:
         """
         Special power charging mode controlled by (voltage or state of charge)
         """
@@ -577,7 +578,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
             logger.warning(f"unknown charging mode controller ({value})")
             return None
 
-    def special_power_control_state(self) -> OnOff | None:
+    def special_power_control_state(self) -> Union[OnOff, None]:
         """
         Special power control state (on/off)
         """
@@ -590,7 +591,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
             logger.warning(f"unknown special power control state ({value})")
             return None
 
-    def each_night_on_function_state(self) -> OnOff | None:
+    def each_night_on_function_state(self) -> Union[OnOff, None]:
         """
         Each night on function state (on/off)
         """
@@ -603,7 +604,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
             logger.warning(f"unknown special power control state ({value})")
             return None
 
-    def no_charging_below_freezing(self) -> OnOff | None:
+    def no_charging_below_freezing(self) -> Union[OnOff, None]:
         """
         Allow charging below 0C (on/off)
         """
@@ -618,7 +619,7 @@ class RenogyRoverController(minimalmodbus.Instrument):
             )
             return None
 
-    def charging_method(self) -> ChargingMethod | None:
+    def charging_method(self) -> Union[ChargingMethod, None]:
         """
         Charging method
         """

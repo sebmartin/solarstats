@@ -82,6 +82,7 @@ files = [
 colorama = {version = "*", markers = "os_name == \"nt\""}
 packaging = ">=19.0"
 pyproject_hooks = "*"
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
 
 [package.extras]
 docs = ["furo (>=2021.08.31)", "sphinx (>=4.0,<5.0)", "sphinx-argparse-cli (>=1.5)", "sphinx-autodoc-typehints (>=1.10)"]
@@ -463,6 +464,20 @@ paramiko = ["paramiko"]
 pgp = ["gpg"]
 
 [[package]]
+name = "exceptiongroup"
+version = "1.1.3"
+description = "Backport of PEP 654 (exception groups)"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "exceptiongroup-1.1.3-py3-none-any.whl", hash = "sha256:343280667a4585d195ca1cf9cef84a4e178c4b6cf2274caef9859782b567d5e3"},
+    {file = "exceptiongroup-1.1.3.tar.gz", hash = "sha256:097acd85d473d75af5bb98e41b61ff7fe35efe6675e4f9370ec6ec5126d160e9"},
+]
+
+[package.extras]
+test = ["pytest (>=6)"]
+
+[[package]]
 name = "executing"
 version = "2.0.0"
 description = "Get the currently executing AST node of a frame, and other information"
@@ -650,6 +665,7 @@ appnope = {version = "*", markers = "sys_platform == \"darwin\""}
 backcall = "*"
 colorama = {version = "*", markers = "sys_platform == \"win32\""}
 decorator = "*"
+exceptiongroup = {version = "*", markers = "python_version < \"3.11\""}
 jedi = ">=0.16"
 matplotlib-inline = "*"
 pexpect = {version = ">4.3", markers = "sys_platform != \"win32\""}
@@ -658,6 +674,7 @@ prompt-toolkit = ">=3.0.30,<3.0.37 || >3.0.37,<3.1.0"
 pygments = ">=2.4.0"
 stack-data = "*"
 traitlets = ">=5"
+typing-extensions = {version = "*", markers = "python_version < \"3.10\""}
 
 [package.extras]
 all = ["black", "curio", "docrepr", "exceptiongroup", "ipykernel", "ipyparallel", "ipywidgets", "matplotlib", "matplotlib (!=3.2.0)", "nbconvert", "nbformat", "notebook", "numpy (>=1.21)", "pandas", "pytest (<7)", "pytest (<7.1)", "pytest-asyncio", "qtconsole", "setuptools (>=18.5)", "sphinx (>=1.3)", "sphinx-rtd-theme", "stack-data", "testpath", "trio", "typing-extensions"]
@@ -1002,6 +1019,7 @@ cachecontrol = {version = ">=0.13.0,<0.14.0", extras = ["filecache"]}
 cleo = ">=2.0.0,<3.0.0"
 crashtest = ">=0.4.1,<0.5.0"
 dulwich = ">=0.21.2,<0.22.0"
+importlib-metadata = {version = ">=4.4", markers = "python_version < \"3.10\""}
 installer = ">=0.7.0,<0.8.0"
 jsonschema = ">=4.10.0,<4.18.0"
 keyring = ">=24.0.0,<25.0.0"
@@ -1015,6 +1033,7 @@ pyproject-hooks = ">=1.0.0,<2.0.0"
 requests = ">=2.26,<3.0"
 requests-toolbelt = ">=0.9.1,<2"
 shellingham = ">=1.5,<2.0"
+tomli = {version = ">=2.0.1,<3.0.0", markers = "python_version < \"3.11\""}
 tomlkit = ">=0.11.4,<1.0.0"
 trove-classifiers = ">=2022.5.19"
 virtualenv = ">=20.22.0,<21.0.0"
@@ -1145,6 +1164,9 @@ files = [
     {file = "pyproject_hooks-1.0.0-py3-none-any.whl", hash = "sha256:283c11acd6b928d2f6a7c73fa0d01cb2bdc5f07c57a2eeb6e83d5e56b97976f8"},
     {file = "pyproject_hooks-1.0.0.tar.gz", hash = "sha256:f271b298b97f5955d53fb12b72c1fb1948c22c1a6b70b315c54cedaca0264ef5"},
 ]
+
+[package.dependencies]
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
 
 [[package]]
 name = "pyreadline"
@@ -1619,6 +1641,17 @@ files = [
 ]
 
 [[package]]
+name = "tomli"
+version = "2.0.1"
+description = "A lil' TOML parser"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
+    {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
+]
+
+[[package]]
 name = "tomlkit"
 version = "0.12.1"
 description = "Style preserving TOML library"
@@ -1832,5 +1865,5 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.11"
-content-hash = "9771ef0f7bf8895a8a3361c6c9d53ecb5affc0625b738ab308880ecb4ec2c7e9"
+python-versions = "^3.9"
+content-hash = "e7bf762c51053f06e524433c98102436b589b7543325a0f58deec08294b66392"
