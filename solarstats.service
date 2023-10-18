@@ -1,0 +1,11 @@
+[Unit]
+Description=A service to collect solar panel data
+
+[Service]
+Restart=always
+RestartSec=1
+TimeoutStartSec=0
+ExecStart=/Users/seb/Documents/Dev/solarstats/.venv/bin/python -m solarstats
+
+[Install]
+WantedBy=multi-user.target

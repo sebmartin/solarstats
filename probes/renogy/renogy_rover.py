@@ -26,14 +26,20 @@ from probes.renogy.types import (
 logger = logging.getLogger(__name__)
 
 
-class RenogyRoverController(minimalmodbus.Instrument):
+def _create_controller(port: int, address: str):
+    return minimalmodbus.Instrument(port=port, slaveaddress=address)
+
+
+class RenogyRoverController:
     """
     Communicates using the Modbus RTU protocol (via provided USB<->RS232 cable)
     """
 
-    def __init__(self, device, address, baudrate=9600, timeout=0.5):
-        self.device = minimalmodbus.Instrument(port=device, slaveaddress=address)
-        assert self.device.serial is not None, "modbus failed to initialize"
+    def __init__(self, port: int, address: str, baudrate=9600, timeout=0.5):
+        self.device = _create_controller(port, address)
+        assert (
+            self.device.serial is not None
+        ), f"modbus failed to initialize; port={port} address={address}"
 
         self.device.serial.baudrate = baudrate
         self.device.serial.timeout = timeout
