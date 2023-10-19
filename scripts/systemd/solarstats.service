@@ -5,7 +5,7 @@ Description=A service to collect solar panel data
 Restart=always
 RestartSec=1
 TimeoutStartSec=0
-ExecStart={{INSTALL_PATH}}/.venv/bin/python -m solarstats
+ExecStart={{INSTALL_PATH}}/scripts/run.sh
 
 [Install]
 WantedBy=multi-user.target

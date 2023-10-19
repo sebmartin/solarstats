@@ -28,7 +28,8 @@ create_systemd_service() {
 
     # Define the path to the output service file
     # output_file="/etc/systemd/system/$service_name.service"
-    output_file="$root_dir/$service_name.service"
+    output_file="$root_dir/systemd/$service_name.service"
+    mkdir -p "$root_dir/systemd/"
 
     # Replace the executable path in the template with the current working directory
     sed -e "s|{{INSTALL_PATH}}|$root_dir|g" "$template_file" > "$output_file"
