@@ -21,7 +21,9 @@ Example `config/config.yaml`:
 
 ```yaml
 frequency: 1.0
-logging_level: INFO
+logging:
+  level: INFO
+  filename: solarstats.log
 probes:
   probe1:
     arg1: 1

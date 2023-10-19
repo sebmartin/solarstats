@@ -10,12 +10,24 @@ from probes.registry import ALL_PROBES, ALL_WRITERS
 logger = logging.getLogger(__name__)
 
 
-def set_logging(level: Union[int, str]):
+def set_logging(level: Union[int, str], filename: Union[str, None] = None):
+    format = "%(asctime)s - %(name)s - %(levelname)s | %(message)s"
+    datefmt = "%Y-%m-%d %H:%M:%S"
+    config = {
+        "level": level,
+        "format": format,
+        "datefmt": datefmt,  # Define the date and time format
+    }
     logging.basicConfig(
-        level=level,
-        format="%(asctime)s - %(name)s - %(levelname)s | %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",  # Define the date and time format
+        **config
     )
+    if filename:
+        file_handler = logging.FileHandler(filename)
+        file_handler.formatter = logging.Formatter(
+            fmt=format,
+            datefmt=datefmt,
+        )
+        logging.root.addHandler(file_handler)
 
 
 DEFAULT_CONFIG_PATH = f"{dirname(abspath(__file__))}/config/config.yaml"
@@ -37,7 +49,10 @@ if __name__ == "__main__":
 
     try:
         config = load_config(config_file, probes=ALL_PROBES, writers=ALL_WRITERS)
-        set_logging(logging.DEBUG if args.verbose else config.logging_level)
+        set_logging(
+            level=logging.DEBUG if args.verbose else config.logging.level,
+            filename=config.logging.filename,
+        )
         logger.info(f"Loaded configuration from: {config_file}")
         logger.debug(f"Loaded configuration values:\n  {config}")
 

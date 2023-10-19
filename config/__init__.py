@@ -15,11 +15,15 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
+@dataclass
+class LoggingConfig:
+    level: Union[int, str] = logging.WARNING
+    filename: Union[str, None] = None
 
 @dataclass
 class EngineConfig:
     frequency: float = 30.0
-    logging_level: Union[int, str] = logging.WARNING
+    logging: LoggingConfig = LoggingConfig()
     probes: list[Probe] = field(default_factory=list)
     writers: list[MetricsWriter] = field(default_factory=list)
 
@@ -46,10 +50,17 @@ def load_config(
     if not config:
         return EngineConfig()
 
+    # configure logging
+    if "logging" in config and isinstance(config["logging"], dict):
+        config["logging"] = LoggingConfig(**config["logging"])
+
     # configure probes
     config_probes = set(config.get("probes", {}).keys())
     available_probes = {p.__name__ for p in probes}
-    unknown_probes = config_probes - available_probes
+    available_probes_lower = {p.__name__.lower() for p in probes}
+    unknown_probes = {
+        p for p in config_probes if p.lower() not in available_probes_lower
+    }
     if unknown_probes:
         logger.warning(f"Ignoring unknown probes from config: {sorted(unknown_probes)}")
         logger.warning(f"Available probe names are: {sorted(available_probes)}")
@@ -66,7 +77,10 @@ def load_config(
     # configure writers
     config_writers = set(config.get("writers", {}).keys())
     available_writers = {p.__name__ for p in writers}
-    unknown_writers = config_writers - available_writers
+    available_writers_lower = {p.__name__.lower() for p in writers}
+    unknown_writers = {
+        w for w in config_writers if w.lower() not in available_writers_lower
+    }
     if unknown_writers:
         logger.warning(
             f"Ignoring unknown writers from config: {sorted(unknown_writers)}"
@@ -85,7 +99,7 @@ def load_config(
     config = {
         k: v
         for k, v in config.items()
-        if k in ["frequency", "probes", "writers", "logging_level"]
+        if k in ["frequency", "probes", "writers", "logging"]
     }
 
     return EngineConfig(**config)

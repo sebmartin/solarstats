@@ -10,7 +10,9 @@ e.g.
 
 ```yaml
 frequency: 5.0
-logging_level: INFO
+logging:
+  level: INFO
+  filename: solarstats.log
 probes:
   RenogyRover:
     device: /dev/ttyUSB0
@@ -64,7 +66,9 @@ The simulator works by taking a SQL database as a source of metrics and simply r
 
 ```yaml
 frequency: 5.0
-logging_level: INFO
+logging:
+  level: INFO
+  filename: solarstats.log
 probes:
   # RenogyRover:
   #   device: /dev/ttyUSB0
