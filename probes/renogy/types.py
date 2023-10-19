@@ -9,19 +9,13 @@ class BatteryType(Enum):
     SELF_CUSTOMIZED = 0x05
 
     def __str__(self) -> str:
-        match self:
-            case BatteryType.OPEN:
-                return "Open"
-            case BatteryType.SEALED:
-                return "Sealed"
-            case BatteryType.GEL:
-                return "Gel"
-            case BatteryType.LITHIUM:
-                return "Lithium"
-            case BatteryType.SELF_CUSTOMIZED:
-                return "Self-customized"
-            case _:
-                return "Unknown battery type"
+        return {
+            BatteryType.OPEN: "Open",
+            BatteryType.SEALED: "Sealed",
+            BatteryType.GEL: "Gel",
+            BatteryType.LITHIUM: "Lithium",
+            BatteryType.SELF_CUSTOMIZED: "Self-customized",
+        }.get(self, "Unknown battery type")
 
 
 class ProductType(Enum):
@@ -29,13 +23,10 @@ class ProductType(Enum):
     INVERTER = 0x01
 
     def __str__(self) -> str:
-        match self:
-            case ProductType.CHARGE_CONTROLLER:
-                return "Charge controller"
-            case ProductType.INVERTER:
-                return "Inverter"
-            case _:
-                return "Unknown product type"
+        return {
+            ProductType.CHARGE_CONTROLLER: "Charge controller",
+            ProductType.INVERTER: "Inverter",
+        }.get(self, "Unknown product type")
 
 
 class OnOff(Enum):
@@ -43,13 +34,10 @@ class OnOff(Enum):
     ON = 0x01
 
     def __str__(self) -> str:
-        match self:
-            case OnOff.OFF:
-                return "Off"
-            case OnOff.ON:
-                return "On"
-            case _:
-                return "Unknown on/off state"
+        return {
+            OnOff.OFF: "Off",
+            OnOff.ON: "On",
+        }.get(self, "Unknown on/off state")
 
 
 class ChargingState(Enum):
@@ -62,23 +50,15 @@ class ChargingState(Enum):
     CURRENT_LIMITING = 0x06
 
     def __str__(self) -> str:
-        match self:
-            case ChargingState.DEACTIVATED:
-                return "Charging deactivated"
-            case ChargingState.ACTIVATED:
-                return "Charging activated"
-            case ChargingState.MPPT:
-                return "MPPT charging mode"
-            case ChargingState.EQUALIZING:
-                return "Equalizing charging mode"
-            case ChargingState.BOOST:
-                return "Boost charging mode"
-            case ChargingState.FLOATING:
-                return "Floating charging mode"
-            case ChargingState.CURRENT_LIMITING:
-                return "Current limiting (overpower)"
-            case _:
-                return "Unknown charging state"
+        return {
+            ChargingState.DEACTIVATED: "Charging deactivated",
+            ChargingState.ACTIVATED: "Charging activated",
+            ChargingState.MPPT: "MPPT charging mode",
+            ChargingState.EQUALIZING: "Equalizing charging mode",
+            ChargingState.BOOST: "Boost charging mode",
+            ChargingState.FLOATING: "Floating charging mode",
+            ChargingState.CURRENT_LIMITING: "Current limiting (overpower)",
+        }.get(self, "Unknown charging state")
 
 
 class Fault(Enum):
@@ -99,39 +79,23 @@ class Fault(Enum):
     CIRCUIT_CHARGE_MOS_SHORT_CIRCUIT = 1 << 30
 
     def __str__(self) -> str:
-        match self:
-            case Fault.BATTERY_OVER_DISCHARGE:
-                return "Battery over discharge"
-            case Fault.BATTERY_OVER_VOLTAGE:
-                return "Battery over voltage"
-            case Fault.BATTERY_UNDER_VOLTAGE:
-                return "Battery under voltage"
-            case Fault.LOAD_SHORT_CIRCUIT:
-                return "Load short circuit"
-            case Fault.LOAD_OVER_CURRENT:
-                return "Load over current"
-            case Fault.CONTROL_TEMPERATURE_TOO_HIGH:
-                return "Control temperature too high"
-            case Fault.AMBIENT_TEMPERATURE_TOO_HIGH:
-                return "Ambient temperature too high"
-            case Fault.PHOTOVOLTAIC_OVER_POWER:
-                return "Photovoltaic over power"
-            case Fault.PHOTOVOLTAIC_INPUT_SHORT_CIRCUIT:
-                return "Photovoltaic input short circuit"
-            case Fault.PHOTOVOLTAIC_INPUT_OVER_VOLTAGE:
-                return "Photovoltaic input over voltage"
-            case Fault.SOLAR_COUNTER_CURRENT:
-                return "Solar counter current"
-            case Fault.SOLAR_WORKING_POINT_OVER_VOLTAGE:
-                return "Solar working point over voltage"
-            case Fault.SOLAR_REVERSELY_CONNECTED:
-                return "Solar reversely connected"
-            case Fault.ANTI_REVERSE_MOS_SHORT_CIRCUIT:
-                return "Anti-reverse MOS short circuit"
-            case Fault.CIRCUIT_CHARGE_MOS_SHORT_CIRCUIT:
-                return "Circuit charge MOS short circuit"
-            case _:
-                return "Unknown fault"
+        return {
+            Fault.BATTERY_OVER_DISCHARGE: "Battery over discharge",
+            Fault.BATTERY_OVER_VOLTAGE: "Battery over voltage",
+            Fault.BATTERY_UNDER_VOLTAGE: "Battery under voltage",
+            Fault.LOAD_SHORT_CIRCUIT: "Load short circuit",
+            Fault.LOAD_OVER_CURRENT: "Load over current",
+            Fault.CONTROL_TEMPERATURE_TOO_HIGH: "Control temperature too high",
+            Fault.AMBIENT_TEMPERATURE_TOO_HIGH: "Ambient temperature too high",
+            Fault.PHOTOVOLTAIC_OVER_POWER: "Photovoltaic over power",
+            Fault.PHOTOVOLTAIC_INPUT_SHORT_CIRCUIT: "Photovoltaic input short circuit",
+            Fault.PHOTOVOLTAIC_INPUT_OVER_VOLTAGE: "Photovoltaic input over voltage",
+            Fault.SOLAR_COUNTER_CURRENT: "Solar counter current",
+            Fault.SOLAR_WORKING_POINT_OVER_VOLTAGE: "Solar working point over voltage",
+            Fault.SOLAR_REVERSELY_CONNECTED: "Solar reversely connected",
+            Fault.ANTI_REVERSE_MOS_SHORT_CIRCUIT: "Anti-reverse MOS short circuit",
+            Fault.CIRCUIT_CHARGE_MOS_SHORT_CIRCUIT: "Circuit charge MOS short circuit",
+        }.get(self, "Unknown fault")
 
 
 class ChargingModeController(Enum):
@@ -139,13 +103,10 @@ class ChargingModeController(Enum):
     SOC = 0x00
 
     def __str__(self) -> str:
-        match self:
-            case ChargingModeController.VOLTAGE:
-                return "Voltage"
-            case ChargingModeController.SOC:
-                return "State of charge"
-            case _:
-                return "Unknown charging mode controller"
+        return {
+            ChargingModeController.VOLTAGE: "Voltage",
+            ChargingModeController.SOC: "State of charge",
+        }.get(self, "Unknown charging mode controller")
 
 
 class ChargingMethod(Enum):
@@ -153,13 +114,10 @@ class ChargingMethod(Enum):
     PWM = 0x01
 
     def __str__(self) -> str:
-        match self:
-            case ChargingMethod.DIRECT:
-                return "Direct charging"
-            case ChargingMethod.PWM:
-                return "PWM"
-            case _:
-                return "Unknown charging method"
+        return {
+            ChargingMethod.DIRECT: "Direct charging",
+            ChargingMethod.PWM: "PWM",
+        }.get(self, "Unknown charging method")
 
 
 class LoadWorkingModes(Enum):
@@ -183,84 +141,65 @@ class LoadWorkingModes(Enum):
     NORMAL_ON = 0x11
 
     def __str__(self) -> str:
-        match self:
-            case LoadWorkingModes.SOLELY_LIGHT_CONTROL:
-                return "Sole light control over " "on/off of load"
-            case LoadWorkingModes.OFF_AFTER_1H:
-                return (
+        return {
+            LoadWorkingModes.SOLELY_LIGHT_CONTROL: "Sole light control over " "on/off of load",
+            LoadWorkingModes.OFF_AFTER_1H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 1 hour"
-                )
-            case LoadWorkingModes.OFF_AFTER_2H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_2H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 2 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_3H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_3H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 3 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_4H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_4H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 4 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_5H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_5H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 5 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_6H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_6H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 6 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_7H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_7H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 7 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_8H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_8H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 8 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_9H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_9H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 9 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_10H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_10H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 10 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_11H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_11H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 11 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_12H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_12H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 12 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_13H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_13H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 13 hours"
-                )
-            case LoadWorkingModes.OFF_AFTER_14H:
-                return (
+                ),
+            LoadWorkingModes.OFF_AFTER_14H: (
                     "Load is turned on by light control, and goes off after a time "
                     "delay of 14 hours"
-                )
-            case LoadWorkingModes.MANUAL:
-                return "Manual on/off of load"
-            case LoadWorkingModes.DEBUG:
-                return "Debug mode"
-            case LoadWorkingModes.NORMAL_ON:
-                return "Load is always on"
-            case _:
-                return "Unknown load working mode"
+                ),
+            LoadWorkingModes.MANUAL: "Manual on/off of load",
+            LoadWorkingModes.DEBUG: "Debug mode",
+            LoadWorkingModes.NORMAL_ON: "Load is always on",
+        }.get(self, "Unknown load working mode")
