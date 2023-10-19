@@ -11,7 +11,7 @@ from probes.renogy.types import (
     ChargingState,
     Fault,
     LoadWorkingModes,
-    OnOff,
+    Toggle,
     ProductType,
 )
 from writers.sql import Metric
@@ -177,10 +177,10 @@ class RenogyRoverControllerSimulator(RenogyRoverController):
     def cumulative_power_consumption(self) -> float:
         return self.__get_next_record().data.get("cumulative_power_consumption") or 0
 
-    def set_street_light(self, state: OnOff):
+    def set_street_light(self, state: Toggle):
         pass
 
-    def street_light_status(self) -> Union[OnOff, None]:
+    def street_light_status(self) -> Union[Toggle, None]:
         return self.__get_next_record().data.get("street_light_status")
 
     def set_street_light_brightness(self, intensity: int):
@@ -297,13 +297,13 @@ class RenogyRoverControllerSimulator(RenogyRoverController):
     def charging_mode_controlled_by(self) -> Union[ChargingModeController, None]:
         return self.__get_next_record().data.get("charging_mode_controlled_by")
 
-    def special_power_control_state(self) -> Union[OnOff, None]:
+    def special_power_control_state(self) -> Union[Toggle, None]:
         return self.__get_next_record().data.get("special_power_control_state")
 
-    def each_night_on_function_state(self) -> Union[OnOff, None]:
+    def each_night_on_function_state(self) -> Union[Toggle, None]:
         return self.__get_next_record().data.get("each_night_on_function_state")
 
-    def no_charging_below_freezing(self) -> Union[OnOff, None]:
+    def no_charging_below_freezing(self) -> Union[Toggle, None]:
         return self.__get_next_record().data.get("no_charging_below_freezing")
 
     def charging_method(self) -> Union[ChargingMethod, None]:

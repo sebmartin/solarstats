@@ -20,7 +20,7 @@ from probes.renogy.types import (
     ChargingState,
     Fault,
     LoadWorkingModes,
-    OnOff,
+    Toggle,
     ProductType,
 )
 
@@ -66,17 +66,17 @@ class RenogyRoverController:
             for key in self.all_data_keys()
         }
 
-    def _read_register(self, address: int, **kwargs):
+    def _read_register(self, address: int, **kwargs) -> int:
         value =  self.device.read_register(address, **kwargs)
         logger.debug(f"read_register[address={hex(address)} value={hex(value)}]")
         return value
 
-    def _read_registers(self, address: int, number_of_registers: int, **kwargs):
+    def _read_registers(self, address: int, number_of_registers: int, **kwargs) -> list[int]:
         values =  self.device.read_registers(address, number_of_registers=number_of_registers, **kwargs)
         logger.debug(f"read_registers[address={hex(address)} value={(hex(v) for v in values)}]")
         return values
 
-    def _read_string(self, address: int, number_of_registers: int, **kwargs):
+    def _read_string(self, address: int, number_of_registers: int, **kwargs) -> str:
         value =  self.device.read_string(address, number_of_registers=number_of_registers, **kwargs)
         logger.debug(f"read_string[address={hex(address)} value=\"{value}\"]")
         return value
@@ -120,7 +120,7 @@ class RenogyRoverController:
         """
         Product model
         """
-        return self._read_string(0x000C, number_of_registers=8).trim()
+        return self._read_string(0x000C, number_of_registers=8).strip()
 
     def software_version(self) -> str:
         """
@@ -166,13 +166,13 @@ class RenogyRoverController:
         """
         Current battery voltage (volts)
         """
-        return self._read_register(0x0101, number_of_decimals=1)
+        return self._read_register(0x0101) / 10.0
 
     def charging_current(self) -> float:
         """
         Charging current to battery (amps)
         """
-        return self._read_register(0x0102, number_of_decimals=2)
+        return self._read_register(0x0102) / 100.0
 
     def controller_temperature(self) -> int:
         """
@@ -199,13 +199,13 @@ class RenogyRoverController:
         """
         Street light (load) voltage (volts)
         """
-        return self._read_register(0x0104, number_of_decimals=1)
+        return self._read_register(0x0104) / 10.0
 
     def load_current(self) -> float:
         """
         Street light (load) current (amps)
         """
-        return self._read_register(0x0105, number_of_decimals=2)
+        return self._read_register(0x0105) / 100.0
 
     def load_power(self) -> int:
         """
@@ -218,13 +218,13 @@ class RenogyRoverController:
         """
         Solar panel voltage to controller (volts)
         """
-        return self._read_register(0x0107, number_of_decimals=1)
+        return self._read_register(0x0107) / 10.0
 
     def solar_current(self) -> float:
         """
         Solar panel current to controller (amps)
         """
-        return self._read_register(0x0108, number_of_decimals=2)
+        return self._read_register(0x0108) / 100.0
 
     def charging_power(self) -> int:
         """
@@ -237,25 +237,25 @@ class RenogyRoverController:
         """
         Minimum battery voltage for the current day (volts)
         """
-        return self._read_register(0x010B, number_of_decimals=1)
+        return self._read_register(0x010B) / 10.0
 
     def battery_max_voltage_today(self) -> float:
         """
         Maximum battery voltage for the current day (volts)
         """
-        return self._read_register(0x010C, number_of_decimals=1)
+        return self._read_register(0x010C) / 10.0
 
     def max_charging_current_today(self) -> float:
         """
         Maximum charging current for the current day (amps)
         """
-        return self._read_register(0x010D, number_of_decimals=2)
+        return self._read_register(0x010D) / 100.0
 
     def max_discharging_current_today(self) -> float:
         """
         Maximum discharging current for the current day (amps)
         """
-        return self._read_register(0x010E, number_of_decimals=2)
+        return self._read_register(0x010E) / 100.0
 
     def max_charging_power_today(self) -> int:
         """
@@ -285,13 +285,13 @@ class RenogyRoverController:
         """
         Power generated today (kilowatt hours)
         """
-        return self._read_register(0x0113, number_of_decimals=4)
+        return self._read_register(0x0113) / 10000.0
 
     def power_consumption_today(self) -> float:
         """
         Power consumed today (kilowatt hours)
         """
-        return self._read_register(0x0114, number_of_decimals=4)
+        return self._read_register(0x0114) / 10000.0
 
     def total_operating_days(self) -> int:
         """
@@ -315,42 +315,46 @@ class RenogyRoverController:
         """
         Total number of amp hours charged to the battery
         """
-        return self._read_register(0x0118)
+        registers = self._read_registers(0x0118, number_of_registers=2)
+        return (registers[0] << 16 | registers[1])
 
     def total_battery_discharge_amphours(self) -> int:
         """
         Total number of amp hours discharged from the battery
         """
-        return self._read_register(0x011A)
+        registers = self._read_registers(0x011A, number_of_registers=2)
+        return (registers[0] << 16 | registers[1])
 
     def cumulative_power_generation(self) -> float:
         """
         Total power generated (kilowatt hours)
         """
-        return self._read_register(0x011C, number_of_decimals=4)
+        registers = self._read_registers(0x011C, number_of_registers=2)
+        return (registers[0] << 16 | registers[1]) / 10000.0
 
     def cumulative_power_consumption(self) -> float:
         """
         Total power consumed (kilowatt hours)
         """
-        return self._read_register(0x011E, number_of_decimals=4)
+        registers = self._read_registers(0x011E, number_of_registers=2)
+        return (registers[0] << 16 | registers[1]) / 10000.0
 
-    def set_street_light(self, state: OnOff):
+    def set_street_light(self, state: Toggle):
         """
         Set street light (load) status on/off
 
-        :param state: OnOff
+        :param state: Toggle
         """
         self.device.write_register(0x010A, state.value)
 
-    def street_light_status(self) -> Union[OnOff, None]:
+    def street_light_status(self) -> Union[Toggle, None]:
         """
         Street light (load) status on/off
         """
         register = self._read_register(0x0120)
         high_byte = register >> 8
         try:
-            return OnOff(high_byte >> 7)
+            return Toggle(high_byte >> 7)
         except ValueError:
             logger.warning(f"unknown street light status ({high_byte})")
             return None
@@ -621,7 +625,7 @@ class RenogyRoverController:
             logger.warning(f"unknown charging mode controller ({value})")
             return None
 
-    def special_power_control_state(self) -> Union[OnOff, None]:
+    def special_power_control_state(self) -> Union[Toggle, None]:
         """
         Special power control state (on/off)
         """
@@ -629,12 +633,12 @@ class RenogyRoverController:
         high_byte = register >> 8
         value = high_byte >> 1 & 0x01
         try:
-            return OnOff(value)
+            return Toggle(value)
         except ValueError:
             logger.warning(f"unknown special power control state ({value})")
             return None
 
-    def each_night_on_function_state(self) -> Union[OnOff, None]:
+    def each_night_on_function_state(self) -> Union[Toggle, None]:
         """
         Each night on function state (on/off)
         """
@@ -642,12 +646,12 @@ class RenogyRoverController:
         high_byte = register >> 8
         value = high_byte & 0x01
         try:
-            return OnOff(value)
+            return Toggle(value)
         except ValueError:
             logger.warning(f"unknown special power control state ({value})")
             return None
 
-    def no_charging_below_freezing(self) -> Union[OnOff, None]:
+    def no_charging_below_freezing(self) -> Union[Toggle, None]:
         """
         Allow charging below 0C (on/off)
         """
@@ -655,7 +659,7 @@ class RenogyRoverController:
         low_byte = register & 0x00FF
         value = low_byte >> 2 & 0x01
         try:
-            return OnOff(value)
+            return Toggle(value)
         except ValueError:
             logger.warning(
                 f"unknown value for no charging below freezing setting ({value})"

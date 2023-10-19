@@ -29,14 +29,14 @@ class ProductType(Enum):
         }.get(self, "Unknown product type")
 
 
-class OnOff(Enum):
+class Toggle(Enum):
     OFF = 0x00
     ON = 0x01
 
     def __str__(self) -> str:
         return {
-            OnOff.OFF: "Off",
-            OnOff.ON: "On",
+            Toggle.OFF: "Off",
+            Toggle.ON: "On",
         }.get(self, "Unknown on/off state")
 
 
