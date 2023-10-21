@@ -38,8 +38,8 @@ class RenogyRoverControllerSimulator(RenogyRoverController):
         self.__stop_polling = True
 
     def __get_next_record(self) -> Metric:
-        self.__records = self.__records or self.__generate_records()
         try:
+            self.__records = self.__records or self.__generate_records()
             return self.__records.__next__()
         except StopIteration:
             logger.info("Restarting metrics generator")
@@ -48,6 +48,9 @@ class RenogyRoverControllerSimulator(RenogyRoverController):
                 return self.__records.__next__()
             except StopIteration:
                 raise NoSimulatedMetricsFoundError("No metrics found in database")
+        except Exception:
+            logger.exception("Failed to load simulated data. Is your database connection correct? Does the database exist?")
+            raise
 
 
     def __generate_records(self) -> Generator[Metric, Any, None]:

@@ -23,7 +23,7 @@ class LoggingConfig:
 @dataclass
 class EngineConfig:
     frequency: float = 30.0
-    logging: LoggingConfig = LoggingConfig()
+    logging: LoggingConfig = field(default_factory=LoggingConfig)
     probes: list[Probe] = field(default_factory=list)
     writers: list[MetricsWriter] = field(default_factory=list)
 

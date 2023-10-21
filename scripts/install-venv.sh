@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if !which pip > /dev/null; then
+    echo "Installing pip, this requires elevated privilegs and will prompt you for your password."
+    sudo apt update && sudo apt install pip python3.11-venv sqlite3 -y
+fi
+
 # Check if the script is run with superuser privileges (root)
 if [ "$EUID" == 0 ]; then
     echo "Do not run this script with sudo."
