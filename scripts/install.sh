@@ -62,7 +62,7 @@ install_systemd_service() {
     echo "  sudo systemctl start \"$service_name\""
 }
 
-# [ -e "$root_dir/.venv" ] && install_venv
+! [ -e "$root_dir/.venv" ] && install_venv
 
 # (systemctl list-units --type=service | awk '$1 == "solarstats.service" { print $1 }') ||
 install_systemd_service

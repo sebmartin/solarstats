@@ -428,65 +428,65 @@ class RenogyRoverController:
             logger.warning(f"unknown battery type ({register})")
             return None
 
-    def over_voltage_threshold(self) -> int:
+    def over_voltage_threshold(self) -> float:
         """
         Over voltage threshold (volts)
         """
-        return self._read_register(0xE005)
+        return self._read_register(0xE005) / 10.0
 
-    def charging_voltage_limit(self) -> int:
+    def charging_voltage_limit(self) -> float:
         """
         Charging voltage limit (volts)
         """
-        return self._read_register(0xE006)
+        return self._read_register(0xE006) / 10.0
 
-    def equalizing_charging_voltage(self) -> int:
+    def equalizing_charging_voltage(self) -> float:
         """
         Equalizing charging voltage (volts)
         """
-        return self._read_register(0xE007)
+        return self._read_register(0xE007) / 10.0
 
-    def boost_charging_voltage(self) -> int:
+    def boost_charging_voltage(self) -> float:
         """
         Boost charging voltage (volts)
         """
-        return self._read_register(0xE008)
+        return self._read_register(0xE008) / 10.0
 
-    def floating_voltage(self) -> int:
+    def floating_voltage(self) -> float:
         """
         Floating voltage (volts)
         """
-        return self._read_register(0xE009)
+        return self._read_register(0xE009) / 10.0
 
-    def boost_charging_recovery_voltage(self) -> int:
+    def boost_charging_recovery_voltage(self) -> float:
         """
         Boost charging recovery voltage (volts)
         """
-        return self._read_register(0xE00A)
+        return self._read_register(0xE00A) / 10.0
 
-    def over_discharge_recovery_voltage(self) -> int:
+    def over_discharge_recovery_voltage(self) -> float:
         """
         Over discharge recovery voltage (volts)
         """
-        return self._read_register(0xE00B)
+        return self._read_register(0xE00B) / 10.0
 
-    def under_voltage_warning_level(self) -> int:
+    def under_voltage_warning_level(self) -> float:
         """
         Under voltage warning level (volts)
         """
-        return self._read_register(0xE00C)
+        return self._read_register(0xE00C) / 10.0
 
-    def over_discharge_voltage(self) -> int:
+    def over_discharge_voltage(self) -> float:
         """
         Over discharge voltage (volts)
         """
-        return self._read_register(0xE00D)
+        return self._read_register(0xE00D) / 10.0
 
-    def discharging_limit_voltage(self) -> int:
+    def discharging_limit_voltage(self) -> float:
         """
         Discharging limit voltage (volts)
         """
-        return self._read_register(0xE00E)
+        return self._read_register(0xE00E) / 10.0
 
     def end_of_charge_soc(self) -> int:
         """
@@ -607,9 +607,9 @@ class RenogyRoverController:
 
     def led_load_current_setting(self) -> float:
         """
-        LED load current setting (milliamps)
+        LED load current setting (amps)
         """
-        return self._read_register(0xE020) * 10
+        return self._read_register(0xE020) / 100.0  # value is N * 10 mA (N * 10 / 1000)
 
     # Special power control
     def charging_mode_controlled_by(self) -> Union[ChargingModeController, None]:
