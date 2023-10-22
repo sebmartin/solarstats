@@ -67,7 +67,7 @@ def load_config(
 
     probes_map = {p.__name__.lower(): p for p in probes}
     config["probes"] = [
-        probes_map[name.lower()](**probe)
+        probes_map[name.lower()](**(probe or {}))
         for name, probe in config.get("probes", {}).items()
         if name.lower() in probes_map
     ]

@@ -73,7 +73,7 @@ class RenogyRoverController:
 
     def _read_registers(self, address: int, number_of_registers: int, **kwargs) -> list[int]:
         values =  self.device.read_registers(address, number_of_registers=number_of_registers, **kwargs)
-        logger.debug(f"read_registers[address={hex(address)} value={(hex(v) for v in values)}]")
+        logger.debug(f"read_registers[address={hex(address)} value={list(hex(v) for v in values)}]")
         return values
 
     def _read_string(self, address: int, number_of_registers: int, **kwargs) -> str:

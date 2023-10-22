@@ -5,6 +5,8 @@ Description=A service to collect solar panel data
 Restart=always
 RestartSec=1
 TimeoutStartSec=0
+# Uncomment next line to run as a specific user
+# User=some_user
 ExecStart={{INSTALL_PATH}}/scripts/run.sh
 
 [Install]
