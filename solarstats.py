@@ -56,6 +56,10 @@ if __name__ == "__main__":
         logger.info(f"Loaded configuration from: {config_file}")
         logger.debug(f"Loaded configuration values:\n  {config}")
 
+        if not config.probes:
+            logger.error("No probes configured, exiting...")
+            exit(1)
+
         engine = Engine(
             frequency=config.frequency, probes=config.probes, writers=config.writers
         )
